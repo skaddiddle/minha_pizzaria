@@ -17,7 +17,7 @@ class TipoIngrediente(models.Model):
     def __str__(self):
         return self.nome
 
-class Ingredientes(models.Model):
+class Ingrediente(models.Model):
     nome = models.CharField(max_length=100)
     tipo_ingrediente = models.ForeignKey(TipoIngrediente,on_delete=models.CASCADE)
     preco_unidade = models.DecimalField(max_digits=8, decimal_places=3, default=0.000)
@@ -42,9 +42,34 @@ class Pizza(models.Model):
         return self.nome
 
     @property
-    def preco_total(self)
+    def preco_total(self):
         total = self.preco_base
         for ingrediente_pizza in self.ingredientepizza_set.all():
             total += ingrediente_pizza.custo_ingrediente
         return total
 
+class IngredientePizza(models.Model):
+    # Relaciona o Ingrediente Pizza com a Pizza
+    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+    # Relaciona o Ingrediente Pizza com o Ingrediente
+    ingrediente = models.ForeignKey(Ingrediente, on_delete=models.CASCADE)
+
+    # 0.031
+    quantidade_numerica = models.DecimalField(max_digits=8, decimal_places=3)
+    
+    # 300 gramas, 1 colher , 1 fatia
+    quantidade_texto = models.CharField(max_length=50, blank=True)
+
+
+    
+    @property
+    def custo_ingrediente(self):
+        return self.ingrediente.preco_unidade * self.quantidade_numerica
+
+    @property
+    def quantidade_display(self):
+        if self.quantidade_texto:
+            return f"{self.quantidade_numerica} {self.ingrediente.unidade_medida} ({self.quantidade_texto})"
+        return f"{self.quantidade_numerica} {self.ingrediente.unidade_medida}"
+
+    

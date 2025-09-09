@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-eq=c$$ljbsr8^)og61^#y@!=n3xuuau+bmiiqpc4je@lvm2&zv"
+SECRET_KEY = "django-insecure-=_!zr#nk^s31kox5etbz_ah8o=snh)k@oi6i(z$n4%t(z-^od0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    "[::1]"
+]
+
+CSRF_TRUSTED_ORIGINS =[
+    "http://localhost:8000",
+    "https://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://127.0.0.1:8000",
+]
 
 
 # Application definition
@@ -37,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "cardapio"
 ]
 
 MIDDLEWARE = [
@@ -102,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "pt-br"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Sao_Paulo"
 
 USE_I18N = True
 
@@ -115,6 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+
+import os
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
