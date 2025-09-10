@@ -4,14 +4,14 @@ from django.db import models
 
 class TipoPizza(models.Model):
     nome = models.CharField(max_length=50) #Charfield - Texto Curto
-    descicao = models.TextField(blank=True) #TextoField - Texto Longo
+    descricao = models.TextField(blank=True) #TextoField - Texto Longo
     cor_hex = models.CharField(max_length=7, default="#FF6B6")
 
     def __str__(self):
         return self.nome
 
 class TipoIngrediente(models.Model):
-    nome = models.Charfield(max_length=100)
+    nome = models.CharField(max_length=100)
     icone = models.CharField(max_length=50)
 
     def __str__(self):
@@ -22,7 +22,7 @@ class Ingrediente(models.Model):
     tipo_ingrediente = models.ForeignKey(TipoIngrediente,on_delete=models.CASCADE)
     preco_unidade = models.DecimalField(max_digits=8, decimal_places=3, default=0.000)
     unidade_medida = models.CharField(max_length=20, default='g')
-    disponivel = models.BooleanField(defauld=True)
+    disponivel = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.nome} - R${self.peco_unidade}/{self.unidade_medida}"
@@ -30,7 +30,7 @@ class Ingrediente(models.Model):
 class Pizza(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
-    tipo_pizza = models.ForeignKey(TipoPizzas, on_delete=models.CASCADE)
+    tipo_pizza = models.ForeignKey(TipoPizza, on_delete=models.CASCADE)
     foto = models.ImageField(upload_to='pizzas/', blank=True, null=True)
     preco_base = models.DecimalField(max_digits=8, decimal_places=2)
     modo_preparo = models.IntegerField()
